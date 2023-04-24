@@ -13,19 +13,17 @@ services:
     networks:
       - backend
  
-  nginx:
-    container_name: web_page
-    #build: ./nginx-server
-    image: nginx:stable-perl
+
+  apache:
+    container_name: web_server
+    build: ./apache-auth
     depends_on:
       - keycloak
-    volumes: 
-      - ./auth:/usr/share/nginx/html/
-      - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "5050:80"
+      - "8000:8000"
     networks:
       - frontend
+    
 
   keycloak:
     container_name: keycloak
