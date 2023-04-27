@@ -11,19 +11,32 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - backend
+      backend:
+        ipv4_address: 10.15.0.4
+      
  
 
-  apache:
-    container_name: web_server
-    build: ./apache-auth
+  #apache:
+   # container_name: web_server
+   # build: ./apache
+   # depends_on:
+   #   - keycloak
+   # ports:
+   #   - "8000:8000"
+ #   networks:
+  #    - frontend
+
+  node:
+    container_name: node_server
+    build: ./node
     depends_on:
       - keycloak
     ports:
-      - "8000:8000"
+      - "3000:3000"
     networks:
-      - frontend
-    
+      frontend:
+        ipv4_address: 10.25.0.4
+      
 
   keycloak:
     container_name: keycloak
@@ -33,17 +46,31 @@ services:
     depends_on:
       - "postgres"
     ports:
-      - "8180:8080"
+      - "8080:8080"
       - "8787:8787" # debug port
     networks:
-      - backend
-      - frontend
+      backend:
+        ipv4_address: 10.15.0.2
+      frontend:
+        ipv4_address: 10.25.0.2
+    
+
+        
 
 networks:
   backend:
     name: backend
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.15.0.0/16
+
   frontend:
     name: frontend
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.25.0.0/16
   

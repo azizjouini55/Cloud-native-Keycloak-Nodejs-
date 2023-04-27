@@ -1,16 +1,33 @@
 var express = require('express');
+var session = require('express-session');
+var Keycloak = require('keycloak-connect');
+const dotenv = require('dotenv');
+dotenv.load();
 var app = express();
 
 
-const session = require('express-session')
 var memoryStore = new session.MemoryStore(); 
-app.use(session({ secret: 'some secret', resave: false, saveUninitialized: true, store: memoryStore })); 
-const keycloak = require('./config/keycloak-config.js').initKeycloak(memoryStore);
+
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true, store: memoryStore })); 
+
+var keycloakConfig = {
+   resource:process.env.CLIENT,
+   bearerOnly:false,
+   serverUrl:process.env.AUTH_URL,
+   realm:process.env.REALM,
+   "use-resource-role-mappings": true,
+   credentials: {
+       secret:process.env.SECRET
+   }
+};
+
+let keycloak = new Keycloak({ store: memoryStore }, keycloakConfig); 
+
 app.use(keycloak.middleware());
 
-const testController = require('./controller/test-controller.js');
-app.use('/test', testController);
-
+app.get('/user', keycloak.protect(), function(req, res){
+   res.sendFile(__dirname + '/index.html');
+});
 
 
 app.get('/', function(req, res){

@@ -1,17 +1,15 @@
 {
   "name": "keycloak-nodejs-microservice",
   "version": "1.0.0",
-  "description": "Demo Project for Node.js Keycloak Integration",
+  "description": "Demo   Node.js Keycloak Integration",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
-  "author": "Dinuth De Zoysa",
-  "license": "ISC",
   "dependencies": {
+    "dotenv": "0.5.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "keycloak-connect": "^9.0.3"
+    "keycloak-connect": "^11.0.0"
   }
 }
