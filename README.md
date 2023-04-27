@@ -1,0 +1,1 @@
+NodeJs server protected by keycloak authentication
