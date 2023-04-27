@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+
   postgres:
     container_name: postgres
     image: "postgres:13.2"
@@ -14,17 +15,6 @@ services:
       backend:
         ipv4_address: 10.15.0.4
       
- 
-
-  #apache:
-   # container_name: web_server
-   # build: ./apache
-   # depends_on:
-   #   - keycloak
-   # ports:
-   #   - "8000:8000"
- #   networks:
-  #    - frontend
 
   node:
     container_name: node_server
